@@ -8,4 +8,4 @@ const connectionTypeSchema = new Schema({
     Title: String
 });
 
-module.exports = mongoose.model('Connection', connectionTypeSchema);
+module.exports = mongoose.model('ConnectionTypes', connectionTypeSchema);

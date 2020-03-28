@@ -18,7 +18,7 @@ const cuTy_get = async (req, res) => {
         console.error('cuTy_list_get', e);
         res.status(500).json({message: e.message});
     }
-    res.send('With this endpoint you can get one station');
+    res.send('With this endpoint you can get one currentType');
 };
 
 const cuTy_post = (req, res) => {
