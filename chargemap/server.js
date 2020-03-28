@@ -16,12 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/station', stationRoute);
 app.use('/connection', connectionRoute);
-app.use('/connectionType', coTyRoute);
+app.use('/connectionTypes', coTyRoute);
 app.use('/currentType', cuTyRoute);
 app.use('/levels', levelsRoute);
 
 
 db.on('connected', () => {
   app.listen(3000);
-  console.log('Connection succesful');
 });

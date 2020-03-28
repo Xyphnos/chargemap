@@ -1,5 +1,5 @@
 'use strict';
-const coTyModel = require('../models/connectionTypeController');
+const coTyModel = require('../models/connectionTypes');
 
 const coTy_list_get = async (req, res) => {
     try {

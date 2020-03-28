@@ -1,5 +1,6 @@
 'use strict';
 const stationModel = require('../models/station');
+const connectionModel = require('../models/connection');
 
 const station_list_get = async (req, res) => {
   try {
@@ -22,8 +23,30 @@ const station_get = async (req, res) => {
   res.send('With this endpoint you can get one station');
 };
 
-const station_post = (req, res) => {
-  res.send('With this endpoint you can add stations');
+const station_post = async ( req, res) => {
+  try {
+
+    const post = await stationModel.create({
+      Title: req.body.Title,
+      AddressLine1: req.body.AddressLine1,
+      Town: req.body.Town,
+      StateOrProvince: req.body.StateOrProvince,
+      Postcode: req.body.Postcode,
+      Connections: req.body.Connection,
+      Location: req.body.Location,
+    });
+    res.send(`Station created with id: ${post._id}.`);
+  } catch(e){
+    console.error(e);
+      }
+};
+
+const station_edit = (req, res) => {
+
+};
+
+const station_delete = (req, res) => {
+
 };
 
 module.exports = {

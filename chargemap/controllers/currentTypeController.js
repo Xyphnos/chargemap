@@ -1,5 +1,5 @@
 'use strict';
-const cuTyModel = require('../models/currentTypeController');
+const cuTyModel = require('../models/currentType');
 
 const cuTy_list_get = async (req, res) => {
     try {
