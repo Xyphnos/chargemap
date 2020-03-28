@@ -12,8 +12,8 @@ const coTy_list_get = async (req, res) => {
 
 const coTy_get = async (req, res) => {
     try {
-        const station = await coTyModel.findById(req.params.id);
-        res.json(station);
+        const coTy = await coTyModel.findById(req.params.id);
+        res.json(coTy);
     } catch (e) {
         console.error('coTy_list_get', e);
         res.status(500).json({message: e.message});
@@ -22,7 +22,7 @@ const coTy_get = async (req, res) => {
 };
 
 const coTy_post = (req, res) => {
-    res.send('With this endpoint you can add stations');
+    res.send('post');
 };
 
 module.exports = {

@@ -19,7 +19,7 @@ const c_get = async (req, res) => {
 };
 
 const c_post = (req, res) => {
-    res.send('Added a connection.');
+    res.send('post.');
 };
 
 module.exports = {
