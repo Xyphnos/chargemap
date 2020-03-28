@@ -1,10 +1,24 @@
 'use strict';
+const url = require('url');
 const stationModel = require('../models/station');
 const connectionModel = require('../models/connection');
 
 const station_list_get = async (req, res) => {
   try {
-    const stations = await stationModel.find().populate('Connection');
+    const queryLimit = url.parse(req.url, true).query;
+    let Qlimit;
+    if (queryLimit == null){
+      Qlimit = 10;
+    }
+    else {
+      Qlimit = parseInt(queryLimit.limit);
+    }
+    const stations = await stationModel.find().populate({
+      path: 'Connection',
+      options: {
+        limit: Qlimit
+      },
+    });
     res.json(stations);
   } catch (e) {
     console.error('station_list_get', e);
