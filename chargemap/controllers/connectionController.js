@@ -14,7 +14,7 @@ const c_get = async (req, res) => {
     try {
         res.json(await connectionModel.findById(req.params.id));
     } catch (e) {
-        console.error('station_list_get', e);
+        console.error('c_list_get', e);
     }
 };
 
