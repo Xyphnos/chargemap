@@ -6,19 +6,17 @@ const connectionModel = require('../models/connection');
 const station_list_get = async (req, res) => {
   try {
     const queryLimit = url.parse(req.url, true).query;
-    let Qlimit;
-    if (queryLimit == null){
-      Qlimit = 10;
+    let Qlimit = parseInt(queryLimit.limit);
+    if (Number.isInteger(Qlimit) === true){
+
     }
     else {
-      Qlimit = parseInt(queryLimit.limit);
+      Qlimit = 10;
     }
-    const stations = await stationModel.find().populate({
-      path: 'Connection',
-      options: {
-        limit: Qlimit
-      },
-    });
+    const stations = await stationModel
+        .find()
+        .populate('Connection')
+        .limit(Qlimit);
     res.json(stations);
   } catch (e) {
     console.error('station_list_get', e);
