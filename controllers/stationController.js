@@ -138,18 +138,8 @@ const station_post = async ( req, res) => {
 const station_edit = async (req, res) => {
   let body = JSON.parse(req.body.Location);
   try {
-    const edit = await stationModel.findOneAndUpdate(req.url.id, {
-      Title: req.body.Title,
-      AddressLine1: req.body.AddressLine1,
-      Town: req.body.Town,
-      StateOrProvince: req.body.StateOrProvince,
-      Postcode: req.body.Postcode,
-      Connections: req.body.Connections,
-      Location: {
-        type: "Point",
-        coordinates: [body.lng, body.lat]
-      },
-    });
+    const station = await stationModel
+        .findByIdAndUpdate(req.params.id, req.query);
     res.send(`Station edited with id: ${edit._id}.`);
   } catch(e){
     console.error('station_edit', e);
