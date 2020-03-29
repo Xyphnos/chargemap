@@ -10,4 +10,8 @@ router.get('/:id', stationController.station_get);
 
 router.post('/', stationController.station_post);
 
+router.delete('/:id', stationController.station_delete);
+
+router.put('/:id', stationController. station_edit);
+
 module.exports = router;
