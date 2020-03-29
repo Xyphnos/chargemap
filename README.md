@@ -1,5 +1,1 @@
-## .env
-Create .env and add 
-``` 
-DB_URL=mongodb://<USER>:<PASSWORD>@<URL>:<PORT>/<DB_NAME>
-``` 
+video of chargemap jelastic https://drive.google.com/drive/folders/1Ovis-1iUcxZRetj2swznOXOKQ2jYM_Ta?usp=sharing
