@@ -14,7 +14,7 @@ const c_list_get = async (req, res) => {
 
 const c_get = async (req, res) => {
     try {
-        res.json(await connectionModel.findById(req.params.id));
+        res.json(await connectionModel.findById(req.query.id));
     } catch (e) {
         console.error('c_list_get', e);
     }
@@ -23,10 +23,10 @@ const c_get = async (req, res) => {
 const c_post = async(req, res) => {
     try {
         const connection = await connectionModel.create({
-                ConnectionTypeID: req.body.ConnectionTypeID,
-                LevelID: req.body.LevelID,
-                CurrentTypeID: req.body.CurrentTypeID,
-                Quantity: req.body.Quantity
+                ConnectionTypeID: req.query.ConnectionTypeID,
+                LevelID: req.query.LevelID,
+                CurrentTypeID: req.query.CurrentTypeID,
+                Quantity: req.query.Quantity
             }
         );
         res.send(`Station created with id: ${connection._id}.`);

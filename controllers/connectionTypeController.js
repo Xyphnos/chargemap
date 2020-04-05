@@ -12,7 +12,7 @@ const coTy_list_get = async (req, res) => {
 
 const coTy_get = async (req, res) => {
     try {
-        const coTy = await coTyModel.findById(req.params.id);
+        const coTy = await coTyModel.findById(req.query.id);
         res.json(coTy);
     } catch (e) {
         console.error('coTy_list_get', e);

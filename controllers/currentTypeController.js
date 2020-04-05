@@ -12,7 +12,7 @@ const cuTy_list_get = async (req, res) => {
 
 const cuTy_get = async (req, res) => {
     try {
-        const cuTy = await cuTyModel.findById(req.params.id);
+        const cuTy = await cuTyModel.findById(req.query.id);
         res.json(cuTy);
     } catch (e) {
         console.error('cuTy_list_get', e);

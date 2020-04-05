@@ -14,11 +14,11 @@ const stationSchema = new Schema({
     Location: {
         type: {
             type: String,
-            enum: ['Polygon'],
+            enum: ['Point'],
             required: true,
         },
         coordinates: {
-            type: [[[Number]]], // first is longitude, second latitude
+            type: [Number], // first is longitude, second latitude
             index: "2dsphere",
             required: true,
 

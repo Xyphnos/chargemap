@@ -1,7 +1,8 @@
 'use strict';
 const stationModel = require('../models/station');
+const connectionModel = require('../models/connection');
 
-const limitStation = async(res, limit) => {
+const limitStation = async(res, limit, start) => {
   res.json(
     await stationModel
         .find()
@@ -13,11 +14,12 @@ const limitStation = async(res, limit) => {
       {path: "CurrentType"}
     ]
   })
+        .skip(start)
         .limit(limit)
   );
 };
 
-const geoStation = async (res, limit, topR, botL) => {
+const geoStation = async (res, limit, start, topR, botL) => {
   res.json(
   await stationModel
       .find(({
@@ -27,12 +29,6 @@ const geoStation = async (res, limit, topR, botL) => {
               "type": "Polygon",
               "coordinates":
               [[
-                /*[topR.lat, topR.lng],
-                [botL.lat, topR.lng],
-                [botL.lat, botL.lng],
-                [topR.lat, botL.lng],
-                [topR.lat, topR.lng]*/
-
             [topR.lng, topR.lat],
             [botL.lng, topR.lat],
             [botL.lng, botL.lat],
@@ -45,6 +41,8 @@ const geoStation = async (res, limit, topR, botL) => {
           }
         }
       }))
+      .skip(start)
+      .limit(limit)
       .populate({
         path: "Connections",
         populate: [
@@ -56,7 +54,6 @@ const geoStation = async (res, limit, topR, botL) => {
       /*.where({
 
       })*/
-      .limit(limit)
     );
 };
 
@@ -68,6 +65,8 @@ const station_list_get = async (req, res) => {
     let queryLimit = query.limit;
     let top = query.topRight;
     let bot = query.bottomLeft;
+    let start = 0;
+    if(req.query.start){start = +req.query.start}
 
     try {
       top = JSON.parse(top);
@@ -84,14 +83,14 @@ const station_list_get = async (req, res) => {
       else{
         queryLimit = 10;
       }
-      geoStation(res, queryLimit, top, bot)
+      geoStation(res, queryLimit, start, top, bot)
     }
 
     else {
 
       if (queryLimit !== undefined){
         queryLimit = parseInt(queryLimit);
-        limitStation(res, queryLimit)
+        limitStation(res, queryLimit, start)
       }
 
       else {
@@ -106,7 +105,7 @@ const station_list_get = async (req, res) => {
 
 const station_get = async (req, res) => {
   try {
-    const station = await stationModel.findById(req.params.id);
+    const station = await stationModel.findById(req.query.id);
     res.json(station);
   } catch (e) {
     console.error('station_list_get', e);
@@ -114,19 +113,20 @@ const station_get = async (req, res) => {
   }
 };
 
-const station_post = async ( req, res) => {
-  let body = JSON.parse(req.body.Location);
+const station_post = async (req, res) => {
+  const LocC = JSON.parse(req.query.Location);
+  const connections = req.body.Connections;
   try {
     const post = await stationModel.create({
-      Title: req.body.Title,
-      AddressLine1: req.body.AddressLine1,
-      Town: req.body.Town,
-      StateOrProvince: req.body.StateOrProvince,
-      Postcode: req.body.Postcode,
-      Connections: req.body.Connections,
+      Title: req.query.Title,
+      AddressLine1: req.query.AddressLine1,
+      Town: req.query.Town,
+      StateOrProvince: req.query.StateOrProvince,
+      Postcode: req.query.Postcode,
+      Connections: req.query.Connections,
       Location: {
         type: "Point",
-        coordinates: [body.lng, body.lat]
+        coordinates: [LocC.lng, LocC.lat]
       },
     });
     res.send(`Station created with id: ${post._id}.`);
@@ -136,10 +136,10 @@ const station_post = async ( req, res) => {
 };
 
 const station_edit = async (req, res) => {
-  let body = JSON.parse(req.body.Location);
+  let body = JSON.parse(req.query.Location);
   try {
     const station = await stationModel
-        .findByIdAndUpdate(req.params.id, req.query);
+        .findByIdAndUpdate(req.query.id, req.query);
     res.send(`Station edited with id: ${edit._id}.`);
   } catch(e){
     console.error('station_edit', e);

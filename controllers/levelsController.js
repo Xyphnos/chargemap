@@ -12,7 +12,7 @@ const levels_list_get = async (req, res) => {
 
 const levels_get = async (req, res) => {
     try {
-        const levels = await levelsModel.findById(req.params.id);
+        const levels = await levelsModel.findById(req.query.id);
         res.json(levels);
     } catch (e) {
         console.error('levels_list_get', e);
