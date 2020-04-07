@@ -13,7 +13,7 @@ const login = (req, res) => {
             if (e) {
                 res.send(e);
             }
-            const token = jwt.sign(user, process.env.JWT_SECRET);
+            const token = jwt.sign(user, 'asd');
             return res.json({user, token});
         });
     })(req, res);
