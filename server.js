@@ -18,8 +18,8 @@ const passport = require("./utils/pass");
 const GQLSchema = require('./schema/schema');
 const sslkey = fs.readFileSync('./cert/ssl-key.pem');
 const sslcert = fs.readFileSync('./cert/ssl-cert.pem');
-const httpport = 3000;
-const httpsport = 8000;
+const httpPort = 3000;
+const httpsPort = 8000;
 
 const options = {
     key: sslkey,
@@ -30,7 +30,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-
 const checkAuth = (req, res) => {
     passport.authenticate("jwt", { session: false }, (err, user) => {
         if(err || !user) {
@@ -40,8 +39,6 @@ const checkAuth = (req, res) => {
 };
 
 app.use("/auth", authRoute);
-
-
 app.use('/station', stationRoute);
 app.use('/connection', connectionRoute);
 app.use('/connectionTypes', coTyRoute);
@@ -59,14 +56,12 @@ app.use(
     }
 );
 
-
 db.on('connected', () => {
-    app.listen(httpport, () => console.log(`App listening on port ${httpport}!`));
-    https.createServer(options, app).listen(httpsport);
+    process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+    if (process.env.NODE_ENV === 'production') {
+        const prod = require('./production')(app, process.env.PORT);
+    } else {
+        const localhost = require('./localhost')(app, process.env.HTTPS_PORT, process.env.HTTP_PORT);
+    }
 
 });
-
-app.get('/', (req, res) => {
-    res.send('Hello Secure World!');
-});
-
