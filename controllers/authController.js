@@ -9,7 +9,8 @@ const login = (req, res) => {
                 message: 'That aint right',
                 user   : user
             });
-        }       req.login(user, {session: false}, (e) => {
+        }
+        req.login(user, {session: false}, (e) => {
             if (e) {
                 res.send(e);
             }
