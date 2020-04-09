@@ -21,6 +21,7 @@ const levelsRoute = require('./routes/levelsRoute');
 const authRoute = require("./routes/authRoute");
 const passport = require("./utils/pass");
 const GQLSchema = require('./schema/schema');
+const userRoute = require('./routes/userRoute');
 
 
 const sslkey = fs.readFileSync('./cert/ssl-key.pem');
@@ -52,7 +53,7 @@ const checkAuth = (req, res) => {
 };
 
 app.use('/user', userRoute);
-app.use("/auth", authRoute);
+app.use('/auth', authRoute);
 app.use('/station', stationRoute);
 app.use('/connection', connectionRoute);
 app.use('/connectionTypes', coTyRoute);
