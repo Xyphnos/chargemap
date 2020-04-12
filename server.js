@@ -24,16 +24,10 @@ const GQLSchema = require('./schema/schema');
 const userRoute = require('./routes/userRoute');
 
 
-const sslkey = fs.readFileSync('./cert/ssl-key.pem');
-const sslcert = fs.readFileSync('./cert/ssl-cert.pem');
+
 const httpPort = 3000;
 const httpsPort = 8000;
 //const saltRound = 12;
-
-const options = {
-    key: sslkey,
-    cert: sslcert
-};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
